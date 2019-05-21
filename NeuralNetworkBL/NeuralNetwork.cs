@@ -30,7 +30,7 @@ namespace NeuralNetworkBL
             W = new Matrix[layerLengths.Length - 1];
 
             for (int i = 0; i < layerLengths.Length - 1; i++)
-                W[i] = Matrix.Create.New(layerLengths[i], layerLengths[i + 1]);
+                W[i] = new Matrix(layerLengths[i], layerLengths[i + 1]);
 
             RandomInitialization();
         }
@@ -143,7 +143,7 @@ namespace NeuralNetworkBL
                 //debug log
                 err = eps.GetCloneOfData().Select(el => el * el).Sum();
 
-                Matrix lastWFixMatrix = Matrix.Create.New(W[lastLayer].Rows, W[lastLayer].Columns);
+                Matrix lastWFixMatrix = new Matrix(W[lastLayer].Rows, W[lastLayer].Columns);
 
                 for (int j = 0; j < lastWFixMatrix.Columns; j++)
                 {
@@ -173,7 +173,7 @@ namespace NeuralNetworkBL
                     delta_k[i] = eps[i] * m_activationFunction.df(m_S[layer][i]);
 
 
-                Matrix fixMatrix = Matrix.Create.New(W[layer].Rows, W[layer].Columns);
+                Matrix fixMatrix = new Matrix(W[layer].Rows, W[layer].Columns);
                 for (int i = 0; i < fixMatrix.Rows; i++)
                     for (int j = 0; j < fixMatrix.Columns; j++)
                         if ((layer - 1) >= 0)
