@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using ImageProcessor;
 using NeuralNetworkBL;
 using SimpleMatrix;
-using NeuralNetworkBL;
 
 namespace NeuralNetwork
 {
