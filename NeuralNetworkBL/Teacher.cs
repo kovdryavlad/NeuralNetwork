@@ -21,7 +21,7 @@ namespace NeuralNetworkBL
             m_folder = folder;            
         }
 
-        public int EPOCH_NUMBER = 1000;
+        public int EPOCH_NUMBER = 250;
         public List<double> Errors = new List<double>();
 
         public void Teach()

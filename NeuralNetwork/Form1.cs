@@ -22,6 +22,8 @@ namespace NeuralNetwork
         string neuralNetworkFile = "NeuralNetwork.dat";
         NeuralNetworkBL.NeuralNetwork m_neuralNetwork;
 
+        string m_sampleDirectory;
+
         public Form1()
         {
             InitializeComponent();
@@ -34,7 +36,20 @@ namespace NeuralNetwork
                 m_neuralNetwork = new NeuralNetworkBL.NeuralNetwork(new[] { 16 * 16, 100, 4 });
 
             m_neuralNetwork.m_activationFunction = new LogisticFunction();
+
+            findSampleDirectory();
         }
+
+        private void findSampleDirectory()
+        {
+            //need go up 3 times to folder "sample"
+            string nededdFolder = Environment.CurrentDirectory;
+            for (int i = 0; i < 3; i++)
+                nededdFolder = new DirectoryInfo(nededdFolder).Parent.FullName;
+
+            m_sampleDirectory = Path.Combine(nededdFolder, "sample");
+        }
+
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -44,6 +59,7 @@ namespace NeuralNetwork
         private void вілкритиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.InitialDirectory = m_sampleDirectory;
 
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
@@ -74,14 +90,14 @@ namespace NeuralNetwork
         
         private void аНуБігомВчитисяToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Teacher teacher = new Teacher(m_neuralNetwork, Path.Combine(Environment.CurrentDirectory, "sample"));
-            
+            Teacher teacher = new Teacher(m_neuralNetwork, m_sampleDirectory);
+
             teacher.Teach();
 
-            chart1.Series[0].Points.DataBindXY(Enumerable.Range(0, teacher.EPOCH_NUMBER).ToArray(), 
+            chart1.Series[0].Points.DataBindXY(Enumerable.Range(0, teacher.EPOCH_NUMBER).ToArray(),
                                                teacher.Errors);
         }
-
+                
         private void Form1_Load(object sender, EventArgs e)
         {
             //NeuralNetworkBL.NeuralNetwork.Test();
